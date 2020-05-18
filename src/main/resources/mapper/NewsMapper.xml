@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.online.exam.dao.NewsMapper">
+    <resultMap id="BaseResultMap" type="com.online.exam.entity.New">
+        <id column="news_id" jdbcType="INTEGER" property="newsId"/>
+        <result column="news_type" jdbcType="VARCHAR" property="newsType"/>
+        <result column="news_title" jdbcType="VARCHAR" property="newsTitle"/>
+        <result column="news_time" jdbcType="TIMESTAMP" property="newsTime"/>
+        <result column="news_author" jdbcType="VARCHAR" property="newsAuthor"/>
+        <result column="news_value" jdbcType="LONGVARCHAR" property="newsValue"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        news_id,news_type,news_title,news_time,news_author,news_value,is_deleted
+  </sql>
+    <select id="findNewsByNum" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_newbee_mall_news
+        where is_deleted = 0
+        limit #{number}
+    </select>
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_newbee_mall_news
+        where news_id = #{newsId}
+    </select>
+
+    <select id="findNewBeeMallNewsList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_newbee_mall_news
+        where is_deleted = 0
+        order by news_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalNewBeeMallNews" parameterType="Map" resultType="int">
+        select count(*) from tb_newbee_mall_news
+    </select>
+
+    <insert id="insertSelective" parameterType="com.online.exam.entity.New">
+        insert into tb_newbee_mall_news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="newsType != null">
+                news_type,
+            </if>
+            <if test="newsTitle != null">
+                news_title,
+            </if>
+            <if test="newsAuthor != null">
+                news_author,
+            </if>
+            <if test="newsValue != null">
+                news_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="newsType != null">
+                #{newsType,jdbcType=VARCHAR},
+            </if>
+            <if test="newsTitle != null">
+                #{newsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="newsAuthor != null">
+                #{newsAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="newsValue != null">
+                #{newsValue,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.online.exam.entity.New">
+        update tb_newbee_mall_news
+        <set>
+            <if test="newsType != null">
+                news_type = #{newsType,jdbcType=VARCHAR},
+            </if>
+            <if test="newsTitle != null">
+                news_title = #{newsTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="newsAuthor != null">
+                news_author = #{newsAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="newsValue != null">
+                news_value = #{newsValue,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="newsTime != null">
+                news_time = #{newsTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where news_id = #{newsId}
+    </update>
+    <update id="deleteNews">
+        update tb_newbee_mall_news
+        set is_deleted=1 where news_id in
+        <foreach item="id" collection="orderIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>
