@@ -6,8 +6,8 @@ package com.online.exam.common;
  * @create 2020-05-05-18:38
  */
 public class Constants {
-    //public final static String FILE_UPLOAD_DIC = "/opt/image/upload/";//上传文件的默认url前缀，linux跑用这个
-    public final static String FILE_UPLOAD_DIC = "D:\\upload2\\";//上传文件的默认url前缀，windows跑用这个
+    public final static String FILE_UPLOAD_DIC = "/opt/image/upload/";//上传文件的默认url前缀，linux跑用这个
+    //public final static String FILE_UPLOAD_DIC = "D:\\upload2\\";//上传文件的默认url前缀，windows跑用这个
 
     public final static int INDEX_CAROUSEL_NUMBER = 5;//首页轮播图数量(可根据自身需求修改)
     public final static int INDEX_NEWS_NUMBER = 11; //新闻数量
