@@ -3,7 +3,7 @@ package com.online.exam.entity;
 public class AdminUser {
     //后台管理员id
     private Integer adminUserId;
-
+    //后台管理员用户名
     private String loginUserName;
 
     private String loginPassword;
